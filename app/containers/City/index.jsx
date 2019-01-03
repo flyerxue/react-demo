@@ -2,11 +2,17 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 import Header from '../../components/Header'
-import CurrentCity from '../../components/Header'
+import CurrentCity from '../../components/CurrentCity'
+import CityList from '../../components/CityList'
 import { bindActionCreators } from "redux";
 import * as userInfoActionsFromOtherFile from "../../actions/userinfo";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { hashHistory } from 'react-router'
+
+import LocalStore from '../../util/localStore'
+import { CITYNAME } from '../../config/localStoreKey'
+
 
 class City extends React.Component {
     constructor(props, context) {
@@ -15,11 +21,29 @@ class City extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Header title='选择城市' />
-                <CurrentCity cityName={this.props.userinfo.cityName} />
-            </div>
+          <div>
+            <Header title='选择城市'/>
+            <CurrentCity cityName={this.props.userinfo.cityName}/>
+            <CityList changeFn={this.changeCity.bind(this)}/>
+          </div>
         )
+    }
+
+    changeCity(newCity) {
+      console.log(newCity)
+      if(newCity == null) {
+        return
+      }
+    //  修改redux
+      const userinfo = this.props.userinfo
+      userinfo.cityName = newCity
+      this.props.userInfoActions.update(userinfo)
+
+    //  修改localsstorage
+      LocalStore.setItem('CITYNAME', newCity)
+
+    //  跳转到首页
+      hashHistory.push('/')
     }
 }
 

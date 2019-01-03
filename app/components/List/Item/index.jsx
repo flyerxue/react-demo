@@ -12,7 +12,6 @@ class Item extends React.Component {
 
   render() {
     const data = this.props.data
-    console.log('data', data)
     return (
       <div className="list-item clear-fix">
         <div className="item-img-container float-left">

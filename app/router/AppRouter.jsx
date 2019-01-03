@@ -5,7 +5,7 @@ import App from '../containers'
 import SubRouter from './SubRouter'
 
 import createBrowserHistory from 'history/createBrowserHistory'
-const customHistory = createBrowserHistory()
+export const customHistory = createBrowserHistory()
 
 export default class AppRouter extends Component {
 
